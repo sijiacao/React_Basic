@@ -1,59 +1,40 @@
 import React from "react";
 import { render } from "react-dom";
 
-const Button = ({ handleClick, name}) => {
-
-  return <button onClick={handleClick}>{name}</button>;
-
-}
-
-const Result = ({res}) => {
-  return <div>{res}</div>;
+const Card = (props) => {
+  return (
+    <div style={{ margin: '1em' }}>
+      <img width="75" src={props.avatar_url} />
+      <div style={{ display: 'inline-block', marginLeft: 10 }}>
+        <div style={{ fontSize: '1.25em', fontWeight: 'bold' }}>
+          {props.name}
+        </div>
+        <div>{props.company}</div>
+      </div>
+    </div>
+  );
 };
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { counter: 0 };
-  }
+let data = [
+  {
+    name: "Paul O’Shannessy",
+    avatar_url: "https://avatars.githubusercontent.com/u/8445?v=3",
+    company: "Facebook"
+  },
+  {
+    name: "Ben Alpert",
+    avatar_url: "https://avatars.githubusercontent.com/u/6820?v=3",
+    company: "Facebook"
+  },
+];
 
-  addOne = () => {
-    this.setState(prevState => ({ counter: prevState.counter + 1 }));
-  };
-
-  addFive = () => {
-    this.setState(prevState => ({ counter: prevState.counter + 5 }));
-  };
-
-  render() {
-    const myBttons = [
-      { 
-        handleClick: () => this.setState(prevState => ({ counter: prevState.counter + 1 })),
-        name: '+1'
-      },
-      {
-        handleClick: () => this.setState(prevState => ({ counter: prevState.counter + 10 })),
-        name: '+10'
-      },
-      {
-        handleClick: () => this.setState(prevState => ({ counter: prevState.counter + 100 })),
-        name: '+100'
-      }
-    ].map(a => {
-        //var a = { handleClick, name };
-        return <Button {...a}  />
-      });
-
-
-    return (
-      <div>
-        <Button handleClick={this.addOne} name='+1'/>
-        <Button handleClick={this.addFive} name='+5'/>
-        {myBttons}
-        <Result res={this.state.counter}/>
-      </div>
-    );
-  }
+const CardList = (props) => {
+  return (
+    <div>
+      {props.cards.map(card => <Card {...card} />)}
+    </div>
+  );
 }
 
-render(<App />, document.getElementById("root"));
+
+render(<CardList cards={data} />, document.getElementById("root"));
